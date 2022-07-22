@@ -1,0 +1,4 @@
+jobs:
+  - command: ["python", "-m", "jobs_stats.jobs.video_project_status"]
+    schedules:
+      - cron: "@hourly"

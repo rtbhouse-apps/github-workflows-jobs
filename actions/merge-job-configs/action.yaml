@@ -1,0 +1,12 @@
+name: "Merge Job Configs"
+description: "Merges job configs to single values.yaml file"
+inputs:
+  job-configs-glob-path:
+    description: "Glob pattern for job configs"
+    required: true
+  target-chart-path:
+    description: "Path to target chart where the values.yaml file will be modified"
+    required: true
+runs:
+  using: "node16"
+  main: "../lib/merge-job-configs-action/index.js"

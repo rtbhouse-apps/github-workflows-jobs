@@ -1,0 +1,10 @@
+jobs:
+  - fullnameOverride: "testjob"
+    command: ["python", "-m", "jobs_stats.jobs.test_job", "{{inputs.parameters.days}}"]
+    parameters:
+      days:
+        default: today
+    schedules:
+      - cron: "@hourly"
+        parameters:
+          days: today
