@@ -1,0 +1,51 @@
+jobs:
+  env: prod
+  appCodeRepo: https://github.com/rtbhouse-apps/jobs-stats
+
+  image:
+    repository: rtbhouse-apps/docker-jobs/jobs-stats
+    tag: master
+    pullPolicy: Always
+
+  serviceAccount:
+    create: true
+
+  gcpServiceAccount:
+    create: true
+    additionalPermissions:
+      - role: roles/bigquery.user
+        resourceRef:
+          apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+          kind: Project
+          external: projects/rtbhouse-apps
+      - role: roles/bigquery.dataEditor
+        resourceRef:
+          apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+          kind: Project
+          external: projects/rtbhouse-apps
+
+  workloadIdentity:
+    enabled: true
+
+  configuration:
+    LOGGING_MODE: GCP_JSON
+
+  secrets:
+    - key: JOBS_DB_OP_URL
+      name: DB_OP_URL
+      version: latest
+    - key: JOBS_STATS_SENTRY_DSN
+      name: SENTRY_DSN
+      version: latest
+
+  jobs:
+    - name: video-project-stats
+      command: ["python", "-m", "jobs_stats.jobs.video_project_stats"]
+      parameters:
+        days:
+          default: today
+      schedules:
+        - suffix: today
+          cron: "10 * * * *"
+          parameters:
+            days: today

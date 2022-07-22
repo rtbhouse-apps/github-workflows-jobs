@@ -1,0 +1,13 @@
+jobs:
+  - command: ["python", "-m", "jobs_stats.jobs.video_project_stats", "{{inputs.parameters.days}}"]
+    parameters:
+      days:
+        default: today
+    schedules:
+      - cron: "@hourly"
+        parameters:
+          days: today
+      - suffix: full-day
+        cron: "H 4 * * *"
+        parameters:
+          days: yesterday
