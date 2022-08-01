@@ -30,6 +30,11 @@ on:
         required: false
         default: false
         type: "boolean"
+      docker-compose-service:
+        description: "Docker compose service to use"
+        required: false
+        default: "jobs"
+        type: "string"
     secrets:
       github-pat:
         description: "GitHub Personal Access Token"
@@ -95,10 +100,10 @@ jobs:
       - name: "Get docker image name and registry"
         id: "get-docker-vars"
         run: |
-          DOCKER_IMAGE_NAME=$(yq -e '.services.jobs.image | split(":").0' docker-compose.yaml)
+          DOCKER_IMAGE_NAME=$(yq -e '.services.${{ inputs.docker-compose-service }}.image | split(":").0' docker-compose.yaml)
           echo "::set-output name=docker-image-name::$DOCKER_IMAGE_NAME"
 
-          DOCKER_REGISTRY=$(yq -e '.services.jobs.image | split("/").0' docker-compose.yaml)
+          DOCKER_REGISTRY=$(yq -e '.services.${{ inputs.docker-compose-service }}.image | split("/").0' docker-compose.yaml)
           echo "::set-output name=docker-registry::$DOCKER_REGISTRY"
 
       - name: "Set variables"
@@ -330,7 +335,7 @@ jobs:
       - name: "Merge job configs"
         uses: "rtbhouse-apps/github-workflows-jobs/actions/merge-job-configs@v0"
         with:
-          job-configs-glob-path: "jobs/**/job.yaml"
+          job-configs-glob-path: "**/job?(s).yaml"
           target-chart-path: "infra/${{ inputs.infra-repo-path }}"
 
       - name: "Commit and push chages"
