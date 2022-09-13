@@ -155,8 +155,16 @@ jobs:
           tags: |
             type=raw,value=${{ env.DOCKER_TAG }}
 
+      # workaround for: https://github.com/actions-runner-controller/actions-runner-controller/issues/893
+      - name: Set up Docker Context for Buildx
+        id: buildx-context
+        run: |
+          docker context create builders
+
       - name: "Set up Docker Buildx"
         uses: "docker/setup-buildx-action@v2"
+        with:
+          endpoint: builders
 
       - name: "Authenticate to Google Cloud"
         id: "gcp-auth"
