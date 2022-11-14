@@ -1,7 +1,10 @@
 import test from "ava";
 import * as path from "path";
+import { fileURLToPath } from "url";
 
-import { getJobsAlias } from "./chart-utils";
+import { getJobsAlias } from "./chart-utils.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test("getJobsAlias", async (t) => {
   const appAlias = await getJobsAlias(path.join(__dirname, "testdata/charts/chart-valid-with-alias"));

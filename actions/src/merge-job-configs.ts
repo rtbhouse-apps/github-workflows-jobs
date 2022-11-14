@@ -1,9 +1,9 @@
 import * as fs from "fs/promises";
+import { globby } from "globby";
 import * as path from "path";
 import * as YAML from "yaml";
 
-import { getJobsAlias } from "./chart-utils";
-import { glob } from "./utils";
+import { getJobsAlias } from "./chart-utils.js";
 
 export async function mergeJobConfigs(jobConfigsGlobPath: string, targetChartPath: string) {
   const jobsAlias = await getJobsAlias(targetChartPath);
@@ -18,7 +18,7 @@ export async function mergeJobConfigs(jobConfigsGlobPath: string, targetChartPat
   }
 
   const jobs = new YAML.YAMLSeq();
-  const jobsConfigPaths = await glob(jobConfigsGlobPath);
+  const jobsConfigPaths = await globby(jobConfigsGlobPath);
   for (const jobsConfigPath of jobsConfigPaths) {
     const jobsConfigFileData = await fs.readFile(jobsConfigPath, "utf-8");
     const jobsConfigDocument = YAML.parseDocument(jobsConfigFileData);

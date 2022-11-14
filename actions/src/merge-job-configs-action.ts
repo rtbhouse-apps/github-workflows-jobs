@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 
-import { mergeJobConfigs } from "./merge-job-configs";
+import { mergeJobConfigs } from "./merge-job-configs.js";
 
 async function run() {
   const jobConfigsGlobPath = core.getInput("job-configs-glob-path", { required: true });
