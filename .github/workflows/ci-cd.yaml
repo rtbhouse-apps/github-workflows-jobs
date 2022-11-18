@@ -168,7 +168,7 @@ jobs:
 
       - name: "Authenticate to Google Cloud"
         id: "gcp-auth"
-        uses: "google-github-actions/auth@v0"
+        uses: "google-github-actions/auth@v1"
         with:
           token_format: "access_token"
           workload_identity_provider: "projects/716804851657/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/github-identity-pool-provider"
@@ -222,7 +222,7 @@ jobs:
 
       - name: "Authenticate to Google Cloud with test Service Account"
         id: "gcp-auth-test-sa"
-        uses: "google-github-actions/auth@v0"
+        uses: "google-github-actions/auth@v1"
         with:
           workload_identity_provider: "projects/716804851657/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/github-identity-pool-provider"
           service_account: "${{ inputs.test-service-account }}"
@@ -283,7 +283,7 @@ jobs:
 
       - name: "Authenticate to Google Cloud"
         id: "gcp-auth"
-        uses: "google-github-actions/auth@v0"
+        uses: "google-github-actions/auth@v1"
         with:
           token_format: "access_token"
           workload_identity_provider: "projects/716804851657/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/github-identity-pool-provider"
